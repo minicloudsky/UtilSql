@@ -7,7 +7,7 @@ class Dao():
     port = 3306
     username = ''
     password = ''
-    databse = ''
+    database = ''
     table_name = ''
     charset = 'utf8mb4'
     instance = None
@@ -19,7 +19,7 @@ class Dao():
         self.port = port
         self.username = username
         self.password = password
-        self.databse = database
+        self.database = database
         self.table_name = table_name
         self.charset = charset
         self.connect()
@@ -65,6 +65,28 @@ class Dao():
             sql += " order by {} {}".format(order_by_column, order)
         if group_by_column:
             sql += " group by {}".format(group_by_column)
+        try:
+            self.cursor.execute(sql)
+            result = self.cursor.fetchall()
+            success_data_format['data'] = result
+            return success_data_format
+        except pymysql.Error:
+            return {'status': -1, 'data': 'find error'}
+
+    def findone(self, columns=[], cond=[], order_by_column="", order="ASC", group_by_column=""):
+        sql = "select "
+        if columns:
+            sql += ",".join(columns)
+            sql += " from {}".format(self.table_name)
+        else:
+            sql += " * from {} ".format(self.table_name)
+        if cond:
+            sql += " where {}".format(cond)
+        if order_by_column and order != "ASC" and order:
+            sql += " order by {} {}".format(order_by_column, order)
+        if group_by_column:
+            sql += " group by {}".format(group_by_column)
+        sql += " limit 1"
         try:
             self.cursor.execute(sql)
             result = self.cursor.fetchall()
