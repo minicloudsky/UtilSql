@@ -143,6 +143,7 @@ class Dao():
 
     # exec  sql
     def execute_sql(self, sql='', error_msg='execute sql error'):
+        result  = []
         if sql:
             try:
                 self.cursor.execute(sql)

@@ -2,7 +2,7 @@
 """
 mysql config file
 """
-HOST = '39.106.114.90'
+HOST = 'localhost'
 DATABASE = 'develops'
 PORT = 3306
 USERNAME = 'root'
