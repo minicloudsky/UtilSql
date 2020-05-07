@@ -141,9 +141,29 @@ class Dao():
     def count(self, cond):
         data = []
 
-    # exec  sql
+    def insert(self, table_name, columns, datas):
+        sql = "insert into `" + table_name + "` "
+        columns = ["`" + column + "`" for column in columns]
+        sql += "( " + ",".join(columns) + ") values"
+        sql += self.generate_values(datas)
+        result = self.execute_sql(sql)
+        return result
+
+    def generate_values(self, datas):
+        for data in datas:
+            columns = []
+            for column in data:
+                row = []
+                if isinstance(column, int):
+                    row.append(column)
+                if isinstance(column, str):
+                    row.append(" '%s' " % column)
+            columns.append("( " + ",".join(row) + " ),")
+        return datas
+        # exec  sql
+
     def execute_sql(self, sql='', error_msg='execute sql error'):
-        result  = []
+        result = []
         if sql:
             try:
                 self.cursor.execute(sql)

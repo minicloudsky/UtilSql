@@ -3,7 +3,7 @@
 mysql config file
 """
 HOST = 'localhost'
-DATABASE = 'develops'
+DATABASE = 'develop'
 PORT = 3306
 USERNAME = 'root'
 PASSWORD = 'root'
